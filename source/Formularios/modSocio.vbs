@@ -45,7 +45,7 @@ End Sub
 
 Private Sub UserForm_Initialize()
     Dim cont As Integer
-    strSQL = "SELECT * FROM DB_GRUPO WHERE DB_GRUPO.ANULADO = FALSE"
+    strSQL = "SELECT * FROM DB_GRUPO WHERE DB_GRUPO.ANULADO = FALSE ORDER BY NOMBRE_GRUPO"
     
     OpenDB
     On Error GoTo Handle:
@@ -72,7 +72,13 @@ Private Sub UserForm_Initialize()
         tbNombre.Text = rs.Fields("NOMBRE_SOCIO")
         tbCodigo.Text = rs.Fields("CODIGO_SOCIO")
         tbDOI.Text = rs.Fields("DOI")
-        cmbGrupo.ListIndex = rs.Fields("ID_GRUPO_FK") - 1
+        For cont = 0 To cmbGrupo.ListCount - 1
+            If Int(cmbGrupo.List(cont, 1)) = Int(rs.Fields("ID_GRUPO_FK")) Then
+                cmbGrupo.ListIndex = cont
+                Exit For
+            End If
+        Next cont
+        
     End If
     
 Handle:

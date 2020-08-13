@@ -25,7 +25,7 @@ Private Sub btCerrar_Click()
 End Sub
 
 Public Sub ActualizarHoja()
-    strSQL = "SELECT ID_GRUPO, NOMBRE_GRUPO FROM DB_GRUPO WHERE DB_GRUPO.ANULADO = FALSE"
+    strSQL = "SELECT ID_GRUPO, NOMBRE_GRUPO FROM DB_GRUPO WHERE DB_GRUPO.ANULADO = FALSE ORDER BY NOMBRE_GRUPO"
     
     ThisWorkbook.Sheets(NOMBRE_HOJA_TEMP9).Range(ThisWorkbook.Sheets(NOMBRE_HOJA_TEMP9).Range("dataSetTemp9"), _
     ThisWorkbook.Sheets(NOMBRE_HOJA_TEMP9).Range("dataSetTemp9").End(xlDown)).ClearContents
@@ -93,9 +93,9 @@ End Sub
 Private Sub btModificar_Click()
     If ListBox1.ListIndex <> -1 Then
         Dim myValue As Variant
-        myValue = InputBox("Nuevo Nombre del Grupo Económico:", "Modificar Grupo Económico", ListBox1.List(ListBox1.ListIndex, 1))
+        myValue = InputBox("Nuevo Nombre del Grupo Econico:", "Modificar Grupo Econico", ListBox1.List(ListBox1.ListIndex, 1))
         If myValue <> "" Then
-            strSQL = "UPDATE DB_GRUPO SET NOMBRE_GRUPO = '" & UCase(myValue) & "' WHERE ID_GRUPO = " & ListBox1.List(ListBox1.ListIndex, 0)
+            strSQL = "UPDATE DB_GRUPO SET NOMBRE_GRUPO = '" & myValue & "' WHERE ID_GRUPO = " & ListBox1.List(ListBox1.ListIndex, 0)
             
             OpenDB
             On Error GoTo Handle:

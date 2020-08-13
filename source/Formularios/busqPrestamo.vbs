@@ -17,7 +17,7 @@ Private Sub btEliminar_Click()
         If ListBox1.List(ListBox1.ListIndex) <> "" Then
             'Confirmacion antes de anular el Prestamo
             Dim resp As Integer
-            resp = MsgBox("Está seguro que desea eliminar este préstamo?", vbYesNo + vbQuestion, ListBox1.List(ListBox1.ListIndex, 3))
+            resp = MsgBox("Est・seguro que desea eliminar este pr駸tamo?", vbYesNo + vbQuestion, ListBox1.List(ListBox1.ListIndex, 3))
             If resp = vbYes Then
                 OpenDB
                 On Error GoTo Handle:

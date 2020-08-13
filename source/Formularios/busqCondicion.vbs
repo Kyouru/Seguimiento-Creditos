@@ -10,7 +10,7 @@ Private Sub btEliminar_Click()
         If ListBox1.List(ListBox1.ListIndex) <> "" Then
             'Confirmacion antes de Anular la Condicion
             Dim resp As Integer
-            resp = MsgBox("Esta seguro que desea eliminar esta condición?", vbYesNo + vbQuestion, "Borrar Condición")
+            resp = MsgBox("Esta seguro que desea eliminar esta condici?", vbYesNo + vbQuestion, "Borrar Condici")
             If resp = vbYes Then
                 OpenDB
                 strSQL = "UPDATE DB_CONDICION SET ANULADO = TRUE WHERE ID_CONDICION = " & ListBox1.List(ListBox1.ListIndex)
@@ -140,7 +140,7 @@ Private Sub UserForm_Initialize()
             lbDesembolso.Caption = lbDesembolso.Caption & "SIN DESEMBOLSAR"
         End If
     End If
-    closeRS
+    'closeRS
     
     'Actualiza la Lista de Condiciones
     ActualizarHoja

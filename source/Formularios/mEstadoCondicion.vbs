@@ -1,6 +1,6 @@
 Private Sub btAgregar_Click()
     Dim myValue As Variant
-    myValue = InputBox("Nombre del Nuevo Estado de Condición:", "Nuevo Estado de Condición")
+    myValue = InputBox("Nombre del Nuevo Estado de Condici:", "Nuevo Estado de Condici")
     If myValue <> "" Then
         strSQL = "INSERT INTO DB_TIPO_CONDICION (NOMBRE_TIPO) VALUES ('" & UCase(myValue) & "');"
         
@@ -69,7 +69,7 @@ End Sub
 Private Sub btEliminar_Click()
     If ListBox1.ListIndex <> -1 Then
         Dim resp As Integer
-        resp = MsgBox("Esta seguro que desea eliminar este Estado de Condición?", vbYesNo + vbQuestion, ListBox1.List(ListBox1.ListIndex, 1))
+        resp = MsgBox("Esta seguro que desea eliminar este Estado de Condici?", vbYesNo + vbQuestion, ListBox1.List(ListBox1.ListIndex, 1))
         If resp = vbYes Then
             strSQL = "UPDATE DB_TIPO_CONDICION SET DB_TIPO_CONDICION.ANULADO = TRUE WHERE ID_TIPO_CONDICION = " & ListBox1.List(ListBox1.ListIndex, 0)
             OpenDB
@@ -94,7 +94,7 @@ End Sub
 Private Sub btModificar_Click()
     If ListBox1.ListIndex <> -1 Then
         Dim myValue As Variant
-        myValue = InputBox("Nuevo Nombre del Estado de Condición:", "Modificar Estado de Condición", ListBox1.List(ListBox1.ListIndex, 1))
+        myValue = InputBox("Nuevo Nombre del Estado de Condici:", "Modificar Estado de Condici", ListBox1.List(ListBox1.ListIndex, 1))
         If myValue <> "" Then
             strSQL = "UPDATE DB_TIPO_CONDICION SET NOMBRE_TIPO = '" & UCase(myValue) & "' WHERE ID_TIPO_CONDICION = " & ListBox1.List(ListBox1.ListIndex, 0)
             

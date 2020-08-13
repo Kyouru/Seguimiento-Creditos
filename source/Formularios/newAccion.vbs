@@ -77,6 +77,8 @@ Private Sub btGuardar_Click()
             ThisWorkbook.Sheets(NOMBRE_HOJA_SEGUIMIENTO).Protect Password:=SHEET_PASSWORD, DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFormattingColumns:=True, AllowFormattingRows:=True, AllowFiltering:=True
 
             Unload Me
+    Else
+        MsgBox "Fecha no Ingresada o Errada"
     End If
     
 Handle:
@@ -88,7 +90,7 @@ Handle:
 End Sub
 
 Private Sub UserForm_Initialize()
-
+    
     If NUEVA_ACCION Then
         tbDetalleAccion.Visible = True
         cmbEstado.Visible = True
@@ -126,12 +128,11 @@ Private Sub UserForm_Initialize()
         Do While Not rs.EOF
             cmbEstado.AddItem rs.Fields("NOMBRE_ESTADO_SEGUIMIENTO")
             cmbEstado.List(cont, 1) = rs.Fields("ID_ESTADO_SEGUIMIENTO")
-            cmbEstado.List(cont, 2) = rs.Fields("FIN")
             cont = cont + 1
             rs.MoveNext
         Loop
     End If
-    closeRS
+    Set rs = Nothing
     cmbEstado.ListIndex = 0
     
     strSQL = "SELECT * FROM ((((DB_SEGUIMIENTO LEFT JOIN DB_ESTADO_SEGUIMIENTO ON " & _
@@ -141,7 +142,7 @@ Private Sub UserForm_Initialize()
     "LEFT JOIN DB_SOCIO ON DB_SOCIO.ID_SOCIO = DB_PRESTAMO.ID_SOCIO_FK) " & _
     "WHERE DB_SEGUIMIENTO.ANULADO = FALSE AND ID_CONDICION_FK = " & _
     ThisWorkbook.Sheets(NOMBRE_HOJA_SEGUIMIENTO).Range("ID_CONDICION") & " ORDER BY FECHA_ACCION ASC"
-    OpenDB
+    'OpenDB
     On Error GoTo Handle:
     rs.Open strSQL, cnn, adOpenKeyset, adLockOptimistic
     If rs.RecordCount > 0 Then

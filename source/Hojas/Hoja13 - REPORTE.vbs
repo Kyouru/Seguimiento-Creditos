@@ -128,5 +128,3 @@ Private Sub btGenerar_Click()
     End If
     End With
 End Sub
-
-

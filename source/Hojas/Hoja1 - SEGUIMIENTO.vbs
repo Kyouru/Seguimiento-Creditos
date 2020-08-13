@@ -5,11 +5,8 @@ Public Sub verificarVersion()
     
     Dim ultimaVersion As String
     
-    Dim strPath As String
-    strPath = ThisWorkbook.Path & "\"
-    
     Set fso = New FileSystemObject
-    Set txtStream = fso.OpenTextFile(strPath & "version", ForReading, False)
+    Set txtStream = fso.OpenTextFile(ThisWorkbook.Sheets(NOMBRE_HOJA_L).Range("PATH_SEG") & "VERSIONES\version", ForReading, False)
     
     ultimaVersion = txtStream.ReadLine
     
@@ -42,7 +39,7 @@ End Sub
 
 Private Sub btEditar_Click()
     If ThisWorkbook.Sheets(NOMBRE_HOJA_SEGUIMIENTO).Range("FILA_ACCION") <> "NO" Then
-        'Macro en Módulo2, abre formulario busqSeguimiento listando todos los Seguimientos de la Condicion
+        'Macro en Mulo2, abre formulario busqSeguimiento listando todos los Seguimientos de la Condicion
         ModificarAccion
     End If
 End Sub
@@ -59,7 +56,7 @@ Private Sub btCalendario_Click()
             
             QuitarFiltros
             'Se filtra por la fecha seleccionada en el calendario
-            ActiveSheet.Range("ENCABEZADO").AutoFilter Field:=18, Criteria1:="=" & .Range("FECHA")
+            ActiveSheet.Range("ENCABEZADO").AutoFilter Field:=18, Criteria1:="=" & Format(.Range("FECHA"), "YYYY-MM-DD")
             
             'Bloquea Hoja
             ThisWorkbook.Sheets(NOMBRE_HOJA_SEGUIMIENTO).Protect Password:=SHEET_PASSWORD, DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFormattingColumns:=True, AllowFormattingRows:=True, AllowFiltering:=True
@@ -70,11 +67,29 @@ End Sub
 Private Sub btHoy2_Click()
     'Desbloquea Hoja
     ThisWorkbook.Sheets(NOMBRE_HOJA_SEGUIMIENTO).Unprotect SHEET_PASSWORD
-            
     QuitarFiltros
     'Se filtra por la fecha de Hoy
+    
+    ActiveWorkbook.Worksheets("SEGUIMIENTO").Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("SEGUIMIENTO").Sort.SortFields.Add2 Key:=Range( _
+        "CABECERA_FECHA_PROXIMA"), SortOn:=xlSortOnValues, Order:=xlDescending, DataOption:= _
+        xlSortNormal
+    With ActiveWorkbook.Worksheets("SEGUIMIENTO").Sort
+        .SetRange Range("ENCABEZADO").CurrentRegion
+        .Header = xlYes
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+    
+    ActiveSheet.Range("ENCABEZADO").AutoFilter Field:=13, Criteria1:= _
+        "=COVENANT", Operator:=xlOr, Criteria2:="=SEGUIMIENTO"
+    ActiveSheet.Range("ENCABEZADO").AutoFilter Field:=17, Criteria1:= _
+        "=(EN BLANCO)", Operator:=xlOr, Criteria2:="=EN PROCESO"
     ActiveSheet.Range("ENCABEZADO").AutoFilter Field:=18, Criteria1:= _
-        xlFilterToday, Operator:=xlFilterDynamic
+        "<=" & Format(Date, "YYYY-MM-DD"), Operator:=xlAnd
+        
     'Bloquea Hoja
     ThisWorkbook.Sheets(NOMBRE_HOJA_SEGUIMIENTO).Protect Password:=SHEET_PASSWORD, DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFormattingColumns:=True, AllowFormattingRows:=True, AllowFiltering:=True
 End Sub
@@ -90,7 +105,7 @@ End Sub
 
 Private Sub btNuevaAccion_Click()
     If ThisWorkbook.Sheets(NOMBRE_HOJA_SEGUIMIENTO).Range("FILA_ACCION") <> "NO" Then
-        'Macro en Módulo2, abre formulario newAccion listando todos los Seguimientos anteriores de la Condicion y permite ingresar un nuevo seguimiento
+        'Macro en Mulo2, abre formulario newAccion listando todos los Seguimientos anteriores de la Condicion y permite ingresar un nuevo seguimiento
         NuevaAccion
     End If
 End Sub
@@ -303,7 +318,7 @@ Private Sub btActualizar_Click()
     End If
     
     If MATRIZ Then
-        strSQL = strSQL & " ORDER BY ID_CONDICION ASC"
+        strSQL = strSQL & " ORDER BY NOMBRE_GRUPO, NOMBRE_SOCIO ASC"
     Else
         strSQL = strSQL & " ORDER BY NOMBRE_SOCIO, SOLICITUD ASC"
     End If

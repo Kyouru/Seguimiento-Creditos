@@ -28,7 +28,7 @@ Public Const NOMBRE_HOJA_TEMP16 As String = "TEMP16"
 
 Public Const NOMBRE_HOJA_REPORTE_POSTERGADOS As String = "REPORTE REVISION"
 Public Const NOMBRE_HOJA_L As String = "L"
-Public Const SHEET_PASSWORD As String = "NoEsLaDeMica"  'No es la misma contraseña que se maneja en produccion... aunque ni ellas mismas la saben
+Public Const SHEET_PASSWORD As String = "KyouruKenji"
 
 Public Const MATRIZ As Boolean = True
 Public Const NUEVA_ACCION As Boolean = True
@@ -66,12 +66,12 @@ Public Sub OpenDB()
     If cnn.State = adStateOpen Then cnn.Close
     On Error GoTo Handle
         cnn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" & _
-        ActiveWorkbook.Path & "\" & ThisWorkbook.Sheets(NOMBRE_HOJA_L).Range("DB_PATH")
+        ThisWorkbook.Sheets(NOMBRE_HOJA_L).Range("PATH_SEG") & "\" & ThisWorkbook.Sheets(NOMBRE_HOJA_L).Range("NAME_DB")
         cnn.Open
     Exit Sub
 Handle:
     If cnn.Errors.count > 0 Then
-        Call Error_Handle(cnn.Errors.Item(0).Source, "Módulo1", strSQL, cnn.Errors.Item(0).Number, cnn.Errors.Item(0).Description)
+        Call Error_Handle(cnn.Errors.Item(0).Source, "Mulo1", strSQL, cnn.Errors.Item(0).Number, cnn.Errors.Item(0).Description)
     End If
     cnn.Errors.Clear
     closeRS
@@ -101,7 +101,7 @@ End Sub
 Public Sub OpenDB3()
     If cnn3.State = adStateOpen Then cnn3.Close
     cnn3.ConnectionString = "Driver={Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)};DBQ=" & _
-    ActiveWorkbook.Path & "\" & "DATABASE\REGISTRO\Registro SISGO.xlsx"
+    ThisWorkbook.Sheets(NOMBRE_HOJA_L).Range("PATH_SEG") & "DATABASE\REGISTRO\Registro SISGO.xlsx"
     cnn3.Open
 End Sub
 

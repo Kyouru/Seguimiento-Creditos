@@ -170,7 +170,7 @@ Public Sub ActualizarHoja()
     If cmbGrupo.Text <> "" Then
         strSQL = strSQL & " AND ID_GRUPO_FK = " & cmbGrupo.List(cmbGrupo.ListIndex, 1)
     End If
-    strSQL = strSQL & " AND DB_SOCIO.ANULADO = FALSE ORDER BY ID_GRUPO_FK, NOMBRE_SOCIO"
+    strSQL = strSQL & " AND DB_SOCIO.ANULADO = FALSE ORDER BY NOMBRE_GRUPO, NOMBRE_SOCIO"
     
     'Limpiar Hoja
     ThisWorkbook.Sheets(NOMBRE_HOJA_TEMP).Range(ThisWorkbook.Sheets(NOMBRE_HOJA_TEMP).Range("dataSetTemp"), ThisWorkbook.Sheets(NOMBRE_HOJA_TEMP).Range("dataSetTemp").End(xlDown)).ClearContents

@@ -21,7 +21,7 @@ Private Sub ActualizarHoja()
     Dim fso As Scripting.FileSystemObject
     
     Set fso = New Scripting.FileSystemObject
-    Call fso.CopyFile(ThisWorkbook.Sheets(NOMBRE_HOJA_L).Range("DB_PATH_REGISTRO_SISGO"), ActiveWorkbook.Path & "\DATABASE\REGISTRO\Registro SISGO.xlsx", 1)
+    Call fso.CopyFile(ThisWorkbook.Sheets(NOMBRE_HOJA_L).Range("DB_PATH_REGISTRO_SISGO"), ThisWorkbook.Sheets(NOMBRE_HOJA_L).Range("PATH_SEG") & "DATABASE\REGISTRO\Registro SISGO.xlsx", 1)
 
     OpenDB3
     strSQL = "SELECT * FROM [" & 2017 & "$]"

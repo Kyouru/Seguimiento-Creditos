@@ -106,7 +106,8 @@ Private Sub UserForm_Initialize()
     
     strSQL = "SELECT * FROM DB_ESTADO_SEGUIMIENTO WHERE DB_ESTADO_SEGUIMIENTO.ANULADO = FALSE"
     
-    OpenDB
+    Set rs = Nothing
+    
     On Error GoTo Handle:
     rs.Open strSQL, cnn, adOpenKeyset, adLockOptimistic
     If rs.RecordCount > 0 Then

@@ -37,7 +37,7 @@ End Sub
 
 Private Sub UserForm_Initialize()
     Dim cont As Integer
-    strSQL = "SELECT * FROM DB_GRUPO WHERE DB_GRUPO.ANULADO = FALSE"
+    strSQL = "SELECT * FROM DB_GRUPO WHERE DB_GRUPO.ANULADO = FALSE ORDER BY NOMBRE_GRUPO"
     
     OpenDB
     On Error GoTo Handle:
@@ -61,3 +61,4 @@ Handle:
     cnn.Errors.Clear
     closeRS
 End Sub
+
