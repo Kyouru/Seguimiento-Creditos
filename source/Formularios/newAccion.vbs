@@ -148,6 +148,7 @@ Private Sub UserForm_Initialize()
     If rs.RecordCount > 0 Then
         Me.Caption = Me.Caption & " | " & rs.Fields("CODIGO_SOCIO") & " | " & rs.Fields("NOMBRE_SOCIO") & _
         " | " & rs.Fields("SOLICITUD")
+        lbCondicion.Caption = rs.Fields("DETALLE")
         Do While Not rs.EOF
             tbAnterior.Text = tbAnterior.Text & " " & ChrW(&H25A0) & " "
             If rs.Fields("FECHA_ACCION") = CDate("1999/01/01") Then
@@ -161,7 +162,6 @@ Private Sub UserForm_Initialize()
             " USUARIO: " & rs.Fields("USUARIO")
             
             tbAnterior.Text = tbAnterior.Text & vbCrLf & vbCrLf
-            lbCondicion.Caption = lbCondicion.Caption & rs.Fields("DETALLE")
             cmbEstado.ListIndex = rs.Fields("ID_ESTADO_SEGUIMIENTO") - 1
             rs.MoveNext
         Loop
