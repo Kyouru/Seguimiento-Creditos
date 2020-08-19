@@ -11,7 +11,7 @@ End Sub
 
 Private Sub cmbEstado_Change()
     If cmbEstado.ListIndex <> -1 Then
-        If cmbEstado.List(cmbEstado.ListIndex, 2) Or Not NUEVA_ACCION Then
+        If cmbEstado.List(cmbEstado.ListIndex, 1) <> 1 And cmbEstado.List(cmbEstado.ListIndex, 1) <> 2 Then
             tbFecha.Visible = False
             btCalendario.Visible = False
             lbFecha.Visible = False
