@@ -39,7 +39,9 @@ Sub ModificarAccion()
 End Sub
 
 Sub LimpiarTablas()
+    ThisWorkbook.Sheets(NOMBRE_HOJA_SEGUIMIENTO).Unprotect SHEET_PASSWORD
     ThisWorkbook.Sheets(NOMBRE_HOJA_SEGUIMIENTO).Range(ThisWorkbook.Sheets(NOMBRE_HOJA_SEGUIMIENTO).Range("dataSet"), ThisWorkbook.Sheets(NOMBRE_HOJA_SEGUIMIENTO).Range("dataSet").End(xlDown)).ClearContents
+    ThisWorkbook.Sheets(NOMBRE_HOJA_SEGUIMIENTO).Protect Password:=SHEET_PASSWORD, DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFormattingColumns:=True, AllowFormattingRows:=True, AllowFiltering:=True
     ThisWorkbook.Sheets(NOMBRE_HOJA_TEMP).Range(ThisWorkbook.Sheets(NOMBRE_HOJA_TEMP).Range("dataSetTemp"), ThisWorkbook.Sheets(NOMBRE_HOJA_TEMP).Range("dataSetTemp").End(xlDown)).ClearContents
     ThisWorkbook.Sheets(NOMBRE_HOJA_TEMP2).Range(ThisWorkbook.Sheets(NOMBRE_HOJA_TEMP2).Range("dataSetTemp2"), ThisWorkbook.Sheets(NOMBRE_HOJA_TEMP2).Range("dataSetTemp2").End(xlDown)).ClearContents
     ThisWorkbook.Sheets(NOMBRE_HOJA_TEMP3).Range(ThisWorkbook.Sheets(NOMBRE_HOJA_TEMP3).Range("dataSetTemp3"), ThisWorkbook.Sheets(NOMBRE_HOJA_TEMP3).Range("dataSetTemp3").End(xlDown)).ClearContents
