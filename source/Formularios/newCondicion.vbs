@@ -9,7 +9,7 @@ Private Sub btGuardar_Click()
     Dim DetalleAccion As String
     IdSeguimiento = 1
     If cmbEstadoSeguimiento.Enabled = False Then
-        DetalleAccion = "'" & InputBox("Por favor, Ingrese la resoluci de " & cmbEstadoSeguimiento.List(cmbEstadoSeguimiento.ListIndex, 0) & ":", cmbEstadoSeguimiento.List(cmbEstadoSeguimiento.ListIndex, 0)) & "'"
+        DetalleAccion = InputBox("Por favor, Ingrese la resolución de " & cmbEstadoSeguimiento.List(cmbEstadoSeguimiento.ListIndex, 0) & ":", cmbEstadoSeguimiento.List(cmbEstadoSeguimiento.ListIndex, 0))
     Else
         DetalleAccion = "NULL"
     End If
@@ -23,14 +23,20 @@ Private Sub btGuardar_Click()
     OpenDB
     On Error GoTo Handle:
     cnn.Execute strSQL
+    On Error GoTo 0
     If cmbEstadoSeguimiento.ListIndex <> 0 Then
         IdSeguimiento = cmbEstadoSeguimiento.List(cmbEstadoSeguimiento.ListIndex, 1)
     End If
     strSQL = "INSERT INTO DB_SEGUIMIENTO (FECHA_ACCION, DETALLE_ACCION, ID_ESTADO_SEGUIMIENTO_FK, ID_CONDICION_FK, USUARIO) VALUES (#" & _
-        Format(Now, "yyyy-mm-dd hh:mm:ss") & "#, " & DetalleAccion & ", " & IdSeguimiento & ", @@IDENTITY, '" & cmbAprobado.Text & "')"
-    
+        Format(Now, "yyyy-mm-dd hh:mm:ss") & "#, "
+    If DetalleAccion = "NULL" Then
+        strSQL = strSQL & DetalleAccion & ", " & IdSeguimiento & ", @@IDENTITY, '" & cmbAprobado.Text & "')"
+    Else
+        strSQL = strSQL & "'" & Replace(DetalleAccion, "'", "''") & "', " & IdSeguimiento & ", @@IDENTITY, '" & cmbAprobado.Text & "')"
+    End If
     On Error GoTo Handle:
     cnn.Execute strSQL
+    On Error GoTo 0
     
     busqCondicion.ActualizarHoja
     busqCondicion.ActualizarLista
@@ -82,6 +88,7 @@ Private Sub UserForm_Initialize()
     OpenDB
     On Error GoTo Handle:
     rs.Open strSQL, cnn, adOpenKeyset, adLockOptimistic
+    On Error GoTo 0
     If rs.RecordCount > 0 Then
         cmbTipo.Clear
         cont = 0
@@ -102,6 +109,7 @@ Private Sub UserForm_Initialize()
     
     On Error GoTo Handle:
     rs.Open strSQL, cnn, adOpenKeyset, adLockOptimistic
+    On Error GoTo 0
     If rs.RecordCount > 0 Then
         cmbEstadoSeguimiento.Clear
         cont = 0
@@ -124,6 +132,7 @@ Private Sub UserForm_Initialize()
     
     On Error GoTo Handle:
     rs.Open strSQL, cnn, adOpenKeyset, adLockOptimistic
+    On Error GoTo 0
     If rs.RecordCount > 0 Then
         lbNombre.Caption = lbNombre.Caption & rs.Fields("NOMBRE_SOCIO")
         lbCodigo.Caption = lbCodigo.Caption & rs.Fields("CODIGO_SOCIO")
