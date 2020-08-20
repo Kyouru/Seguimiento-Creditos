@@ -28,7 +28,7 @@ Private Sub btGuardar_Click()
         strSQL = "INSERT INTO DB_SEGUIMIENTO (FECHA_ACCION, DETALLE_ACCION, ID_ESTADO_SEGUIMIENTO_FK," & _
         "ID_CONDICION_FK, USUARIO, FECHA_PROXIMA_ACCION) VALUES (#" & Format(Now, "yyyy-mm-dd hh:mm:ss") & "#, "
         If tbDetalleAccion.Text <> "" Then
-            strSQL = strSQL & "'" & tbDetalleAccion.Text & "',"
+            strSQL = strSQL & "'" & Replace(tbDetalleAccion.Text, "'", "''") & "',"
         Else
             strSQL = strSQL & " NULL, "
         End If
@@ -48,6 +48,7 @@ Private Sub btGuardar_Click()
             OpenDB
             On Error GoTo Handle:
             cnn.Execute (strSQL)
+            On Error GoTo 0
             closeRS
             
             Dim total As Range
@@ -121,6 +122,7 @@ Private Sub UserForm_Initialize()
     OpenDB
     On Error GoTo Handle:
     rs.Open strSQL, cnn, adOpenKeyset, adLockOptimistic
+    On Error GoTo 0
     If rs.RecordCount > 0 Then
         cmbEstado.Clear
         Dim cont As Integer
@@ -145,6 +147,7 @@ Private Sub UserForm_Initialize()
     'OpenDB
     On Error GoTo Handle:
     rs.Open strSQL, cnn, adOpenKeyset, adLockOptimistic
+    On Error GoTo 0
     If rs.RecordCount > 0 Then
         Me.Caption = Me.Caption & " | " & rs.Fields("CODIGO_SOCIO") & " | " & rs.Fields("NOMBRE_SOCIO") & _
         " | " & rs.Fields("SOLICITUD")
